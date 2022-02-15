@@ -1,5 +1,4 @@
 #include "sort.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 /**
@@ -31,7 +30,7 @@ size_t max_array(int *array, size_t size)
 void counting_sort(int *array, size_t size)
 {
 	size_t i, max;
-	int sum, *count, *output;
+	int *count, *output;
 
 	if (!array)
 		return;
@@ -47,19 +46,16 @@ void counting_sort(int *array, size_t size)
 	for (i = 0; i < size; i++)
 		count[array[i]]++;
 
-	sum = 0;
-	for (i = 0; i <= max; i++)
-	{
-		sum += count[i];
-		count[i] = sum;
-		if (i != max)
-			printf("%d, ", count[i]);
-	}
-	printf("%d\n", count[i - 1]);
+	for (i = 1; i <= max; i++)
+		count[i] += count[i - 1];
+	print_array(count, max + 1);
 
 	output = malloc(sizeof(int) * (max + 1));
-	if (!count)
+	if (!output)
+	{
+		free(count);
 		return;
+	}
 
 	for (i = 0; i < size; i++)
 	{
@@ -69,4 +65,6 @@ void counting_sort(int *array, size_t size)
 
 	for (i = 0; i < size; i++)
 		array[i] = output[i];
+	free(count);
+	free(output);
 }
