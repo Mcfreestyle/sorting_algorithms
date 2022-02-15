@@ -32,7 +32,7 @@ void counting_sort(int *array, size_t size)
 	size_t i, max;
 	int *count, *output;
 
-	if (!array)
+	if (!array || size < 2)
 		return;
 
 	max = max_array(array, size);
